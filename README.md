@@ -2,9 +2,9 @@
 
 ###Screenshot
 
-![Picture 1] (http://raw.githubusercontent.com/lippol94/EasyPoli-ContentAutomator/master/res/img/pic_1.png)
-![Picture 2] (http://raw.githubusercontent.com/lippol94/EasyPoli-ContentAutomator/master/res/img/pic_2.png)
-![Picture 3] (http://raw.githubusercontent.com/lippol94/EasyPoli-ContentAutomator/master/res/img/pic_3.png)
+![Picture 1] (https://raw.githubusercontent.com/lippol94/EasyPoli-ContentAutomator/master/res/img/pic_1.png)
+![Picture 2] (https://raw.githubusercontent.com/lippol94/EasyPoli-ContentAutomator/master/res/img/pic_2.png)
+![Picture 3] (https://raw.githubusercontent.com/lippol94/EasyPoli-ContentAutomator/master/res/img/pic_3.png)
 
 ###Generated HTML
 
