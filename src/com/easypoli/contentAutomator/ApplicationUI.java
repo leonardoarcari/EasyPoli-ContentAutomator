@@ -49,6 +49,7 @@ public class ApplicationUI implements ActionListener{
      * TextArea used to show generated HTML code after working on all the data
      */
     private JTextArea htmlTextArea;
+    private JScrollPane htmlPane;
     /**
      * ArrayList used to store all the data read from specified excel file. Each cell is an ArrayList of Strings
      */
@@ -101,10 +102,14 @@ public class ApplicationUI implements ActionListener{
         gbc.weightx     = 1;
         gbc.gridx       = 1;
         gbc.insets      = new Insets(0, 0, 10, 0);
+        excelField.setColumns(10); // Make sure long text won't make the layout to re-arrange. Apparently
+                                   // any number of column will do the trick
         headerPanel.add(excelField, gbc);
+
 
         //Header ExcelBtn
         gbc.fill        = GridBagConstraints.RELATIVE;
+        gbc.anchor      = GridBagConstraints.EAST;
         gbc.weightx     = 0;
         gbc.gridx       = 2;
         gbc.insets      = new Insets(0, 0, 10, 0);
@@ -135,7 +140,6 @@ public class ApplicationUI implements ActionListener{
         // We wanna wrap the contentPanel in a ScrollPane in case (an it will) contents JPanel are too much for the
         // window height
         JScrollPane contentScrollPanel = new JScrollPane(contentPanel);
-        contentScrollPanel.setPreferredSize(new Dimension(1024, 250)); //Make it wide enough to contain file path string
         contentsPanelList = new ArrayList<>(); //Instantiating contentsPanelList
 
         /**
@@ -157,9 +161,10 @@ public class ApplicationUI implements ActionListener{
         /**
          * Disposing JTextArea. It's supposed to show to user the HTML Code generated at Generate-Button pressing
          */
+        String          demoTxt     = "/**\n * Your HTML code will appear here\n */";
         htmlTextArea                = new JTextArea();
-        JScrollPane     htmlPane    = new JScrollPane(htmlTextArea);
-        htmlPane.setPreferredSize(new Dimension(1024, 250)); //Make it wide enough to contain good portion of code
+        htmlPane                    = new JScrollPane(htmlTextArea);
+        htmlTextArea.setText(demoTxt);
         htmlPane.setBorder(BorderFactory.createCompoundBorder( //Code courtesy of Oracle's Java Examples
                 BorderFactory.createCompoundBorder(
                         BorderFactory.createTitledBorder("Ready-to-paste HTML Code"),
@@ -169,20 +174,34 @@ public class ApplicationUI implements ActionListener{
         ));
 
         /**
-         * Adding elements to the MainPanel. It's been decided to use a BoxLayout top-to-bottom layout, mostly for
-         * studying reasons.
+         * Adding elements to the MainPanel. As contentPanel is the main Panel the user will interact with we wanna
+         * make sure it's high enough. So y-weight of it will be twice of htmlPanel one. I think these are good
+         * proportions. GridBagLayout does the trick.
          */
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.add(headerPanel);
-        mainPanel.add(contentScrollPanel);
-        mainPanel.add(generatePanel);
-        mainPanel.add(htmlPane);
+        mainPanel       = new JPanel();
+        mainPanel.setLayout(new GridBagLayout());
+        gbc.gridx       = 0;                            // |
+        gbc.gridy       = 0;                            // |
+        gbc.anchor      = GridBagConstraints.CENTER;    // |    Resetting GridBagConstraints properties
+        gbc.gridwidth   = 1;                            // |
+        gbc.weightx     = 1;                            // |
+        gbc.fill        = GridBagConstraints.BOTH; // Make sure components fill both horizontally and vertically
+        mainPanel.add(headerPanel, gbc);
+        gbc.gridy       = 1;
+        gbc.weighty     = 2; // 2*htmlPane GridBagConstraints y-weight
+        mainPanel.add(contentScrollPanel, gbc);
+        gbc.gridy       = 2;
+        gbc.weighty     = 0;
+        mainPanel.add(generatePanel, gbc);
+        gbc.gridy       = 3;
+        gbc.weighty     = 1;
+        mainPanel.add(htmlPane, gbc);
 
         /*
          * Setting up main JFrame and disposing it to the kind user
          */
         rootFrame = new JFrame("Content Automator");
+        rootFrame.setPreferredSize(new Dimension(800, 600));
         rootFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         rootFrame.add(mainPanel);
         rootFrame.pack();
@@ -280,16 +299,18 @@ public class ApplicationUI implements ActionListener{
                     tmpPanel.add(contentText, gbc);
                     // PDF file path text field
                     gbc.gridy       = 1;
+                    tmpTxtField.setColumns(10); // Make sure long text won't make the layout to re-arrange. Apparently
+                                                // any number of column will do the trick
                     tmpPanel.add(tmpTxtField, gbc);
                     // Load-PDF-file button
                     gbc.fill        = GridBagConstraints.RELATIVE;
+                    gbc.anchor      = GridBagConstraints.EAST;
                     gbc.weightx     = 0;
                     gbc.gridx       = 1;
                     tmpPanel.add(pdfBtn, gbc);
                     // "Add a new pdf loading form" button
                     gbc.gridwidth   = 2;
                     gbc.gridy       = 2;
-                    gbc.anchor      = GridBagConstraints.EAST;
                     tmpPanel.add(addRowBtn, gbc);
                     // Set border for the JPanel
                     tmpPanel.setBorder(BorderFactory.createCompoundBorder( //Code courtesy of Oracle's Java Examples
@@ -303,9 +324,8 @@ public class ApplicationUI implements ActionListener{
                     contentsPanelList.add(tmpPanel); // Add the JPanel reference to our PDF-panels list
                     contentPanel.add(tmpPanel); // Add the JPanel to Contents Panel
 
-                    mainPanel.revalidate(); //Refresh mainPanel to show new components just added
-                    mainPanel.repaint();
-
+                    rootFrame.revalidate(); //Refresh main window
+                    rootFrame.repaint();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -338,20 +358,22 @@ public class ApplicationUI implements ActionListener{
         gbc.weightx     = 1;
         gbc.gridx       = 0;
         gbc.gridy       = nextRow+1; // First JPanel row is dedicated to how-text so we need a +1
+        tmpTxtField.setColumns(10); // Make sure long text won't make the layout to re-arrange. Apparently
+                                    // any number of column will do the trick
         contentPanel.add(tmpTxtField, gbc);
         // Load pdf-file button
         gbc.fill = GridBagConstraints.RELATIVE;
+        gbc.anchor      = GridBagConstraints.EAST;
         gbc.weightx     = 0;
         gbc.gridx       = 1;
         contentPanel.add(pdfBtn, gbc);
         // "Add a new PDF-loading-form" button
-        gbc.anchor      = GridBagConstraints.EAST;
         gbc.gridy       = nextRow+2; // Same as above ;)
         gbc.gridwidth   = 2;
         contentPanel.add(jButton, gbc);
 
-        contentPanel.getParent().revalidate(); // Refresh content panel to show new components just added
-        contentPanel.getParent().repaint();
+        rootFrame.revalidate(); // Refresh the window to show new components just added
+        rootFrame.repaint();
     }
 
     /**
@@ -609,5 +631,7 @@ public class ApplicationUI implements ActionListener{
 
         htmlTextArea.setText(htmlCode.toString()); // Show the HTML code built and cry of happiness for not having
                                                    // written it on your own wasting hours
+        rootFrame.revalidate();
+        rootFrame.repaint();
     }
 }
