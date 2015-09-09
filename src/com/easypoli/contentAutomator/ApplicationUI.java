@@ -225,6 +225,7 @@ public class ApplicationUI implements ActionListener{
      */
     private void LoadExcelFile() {
 
+        fileDialog.setFilenameFilter((dir, name) -> name.endsWith(".xlsx")); // Check excel file type
         fileDialog.setVisible(true); //Dispose AWT fileDialog and let the user choose excel file
         if (fileDialog.getFiles().length != 0) { //Check if the user selected something
             File excelFile = fileDialog.getFiles()[0]; //Get selected file reference
@@ -385,6 +386,7 @@ public class ApplicationUI implements ActionListener{
                                                                         // of the matching JTextField too
         int         numberOfCurrentTextField    = 0; // Text fields counter
         Component   components[]                = jPanel.getComponents(); // Getting components in the JPanel
+        fileDialog.setFilenameFilter((dir, name) -> name.endsWith(".pdf")); // Check pdf file type
         fileDialog.setVisible(true); // Show the fileDialog to let the user choose a PDF file
         if (fileDialog.getFiles().length != 0) { // Check if the user selected something
             for (Component c : components) { // Cycle through components
