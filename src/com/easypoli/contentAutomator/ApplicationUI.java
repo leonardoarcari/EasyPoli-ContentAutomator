@@ -460,8 +460,9 @@ public class ApplicationUI implements ActionListener{
                                                              // HTML block for each. Then concatenate them together
 
             //As said before most of these lines are extremely specific for our needs
-            int             pagesNumber = 0; // PDF number of pages
-            long            pdfSize     = 0; // PDF file size
+            int             pagesNumber     = 0; // PDF number of pages
+            long            pdfSizeUnit     = 0; // PDF file size
+            long            pdfSizeFloat    = 0;
 
             Component       component[] = contentsPanelList.get(i).getComponents(); // Getting current JPanel components
             ArrayList<File> files       = new ArrayList<>(); // ArrayList to store PDF file references
@@ -471,7 +472,15 @@ public class ApplicationUI implements ActionListener{
                     files.add(tmpPdfFile); // Save its reference in our ArrayList
                     try (PDDocument tmpPDF = PDDocument.load(tmpPdfFile)){ // Open a PDDocument from temporary file
                         pagesNumber = pagesNumber + tmpPDF.getNumberOfPages(); // Get the number of pages
-                        pdfSize     = tmpPdfFile.length()/1048576L; // Get its size in MegaBytes
+
+                        if (tmpPdfFile.length() > 1048576L) {
+                            pdfSizeUnit     = tmpPdfFile.length()/1048576L; // Get its size in MegaBytes
+                            pdfSizeFloat    = (tmpPdfFile.length()%1048576L)/100000;
+                        } else {
+                            pdfSizeUnit     = (tmpPdfFile.length()/1024L);
+                            pdfSizeFloat    = -1;
+                        }
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -564,7 +573,7 @@ public class ApplicationUI implements ActionListener{
             int tagNumber = 1;
             while (listIterator.hasNext()) {
                 if (tagNumber != 1) {
-                    htmlCode.append(" ,");
+                    htmlCode.append(", ");
                 }
                 htmlCode.append(HTMLConstants.SPAN_TAG)
                         .append(tagNumber)
@@ -596,10 +605,17 @@ public class ApplicationUI implements ActionListener{
                         .append(subject)
                         .append("/").append(typeAndSubject)
                         .append("/").append(files.get(0).getName())
-                        .append("\">Scarica ~ ")
-                        .append(pdfSize)
-                        .append(" MB")
-                        .append(HTMLConstants.LINK_CLOSE)
+                        .append("\">Scarica ~ ");
+                if (pdfSizeFloat != -1) {
+                    htmlCode.append(pdfSizeUnit)
+                            .append(".")
+                            .append(pdfSizeFloat)
+                            .append(" MB");
+                } else {
+                    htmlCode.append(pdfSizeUnit)
+                            .append(" KB");
+                }
+                htmlCode.append(HTMLConstants.LINK_CLOSE)
                         .append("\n");
             } else {
                 htmlCode.append("      ")
