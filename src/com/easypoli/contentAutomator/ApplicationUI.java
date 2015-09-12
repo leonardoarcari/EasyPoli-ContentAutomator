@@ -559,7 +559,7 @@ public class ApplicationUI implements ActionListener{
                         .append(HTMLConstants.ARTICLE_CLOSE)
                         .append("\n");
             } else {
-                htmlCode.append("Schemi")
+                htmlCode.append("Schema")
                         .append(HTMLConstants.SPAN_CLOSE)
                         .append(HTMLConstants.ARTICLE_CLOSE)
                         .append("\n");
