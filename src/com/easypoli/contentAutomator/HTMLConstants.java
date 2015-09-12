@@ -17,7 +17,11 @@ public class HTMLConstants {
     public static String STRONG             = "<strong>";
     public static String SPAN_TYPE          = "<span class=\"tipologia\">";
     public static String SPAN_TAG           = "<span class=\"tag";
-    public static String SINGLE_LINK        = "<a target=\"_blank\" class=\"btn btn-primary AnalyticsStandard\" " +
+    public static String SINGLE_LINK_TEO    = "<a target=\"_blank\" class=\"btn btn-primary AnalyticsStandard\" " +
+                                              "href=\"/materie/";
+    public static String SINGLE_LINK_ES     = "<a target=\"_blank\" class=\"btn btn-danger AnalyticsStandard\" " +
+                                              "href=\"/materie/";
+    public static String SINGLE_LINK_SCHEMI = "<a target=\"_blank\" class=\"btn btn-warning AnalyticsStandard\" " +
                                               "href=\"/materie/";
     public static String MULTIPLE_LINK      = "<a class=\"AnalyticsEserciziBlocco\" target=\"_blank\" href=\"/materie/";
     public static String NAV_PILLS          = "<ul class=\"nav nav-pills\">";

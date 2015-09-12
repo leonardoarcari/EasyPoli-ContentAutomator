@@ -603,9 +603,15 @@ public class ApplicationUI implements ActionListener{
 
             // Customize download section according to single or multiple PDF files availability and build correct link
             if (HowManyTextFields(contentsPanelList.get(i)) == 1) {
-                htmlCode.append("        ")
-                        .append(HTMLConstants.SINGLE_LINK)
-                        .append(subject)
+                htmlCode.append("        ");
+                if (type.equals("teo")) {
+                    htmlCode.append(HTMLConstants.SINGLE_LINK_TEO);
+                } else if (type.equals("es")) {
+                    htmlCode.append(HTMLConstants.SINGLE_LINK_ES);
+                } else {
+                    htmlCode.append(HTMLConstants.SINGLE_LINK_SCHEMI);
+                }
+                    htmlCode.append(subject)
                         .append("/").append(typeAndSubject)
                         .append("/").append(files.get(0).getName())
                         .append("\">Scarica ~ ");
