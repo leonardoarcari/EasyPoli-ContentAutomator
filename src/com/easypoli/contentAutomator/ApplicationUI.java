@@ -269,7 +269,10 @@ public class ApplicationUI implements ActionListener{
                         excelData.add(new ArrayList<>()); // Instantiating the ArrayList<String> for current content
                         while (cellIterator.hasNext()) {
                             // Retrieving cells data and save them
-                            excelData.get(numberOfItems).add(cellIterator.next().getStringCellValue());
+                            String tmp = cellIterator.next().getStringCellValue();
+                            if (!tmp.equals("")) {
+                                excelData.get(numberOfItems).add(tmp);
+                            }
                         }
                         numberOfItems++; // Update the counter
                     }
