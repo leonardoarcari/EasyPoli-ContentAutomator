@@ -257,19 +257,22 @@ public class ApplicationUI implements ActionListener{
                 XSSFSheet       argomentiSheet  = argomentiBook.getSheetAt(0); // Load first sheet from the excel file
                                                                                // where contents data should be
 
-                Iterator<Row>   rowIterator     = argomentiSheet.iterator(); // Excel rows iterator
+                Iterator<Row>   rowIterator     = argomentiSheet.rowIterator(); // Excel rows iterator
 
                 int             numberOfItems   = 0; // "I'll be counting rows" - No really, we need to know how many
                                                      // JPanels we gotta create
                 excelData.clear(); // IMPORTANT: In case we loaded another excel file previously
                 while (rowIterator.hasNext()) {
-                    Iterator<Cell> cellIterator = rowIterator.next().cellIterator(); // For each row, iterate on cells
-                    excelData.add(new ArrayList<>()); // Instantiating the ArrayList<String> for current content
-                    while (cellIterator.hasNext()) {
-                        // Retrieving cells data and save them
-                        excelData.get(numberOfItems).add(cellIterator.next().getStringCellValue());
+                    Row row = rowIterator.next();
+                    if (row.getRowNum() != 0) { // Ignore first row as it will contain columns description
+                        Iterator<Cell> cellIterator = row.cellIterator(); // For each row, iterate on cells
+                        excelData.add(new ArrayList<>()); // Instantiating the ArrayList<String> for current content
+                        while (cellIterator.hasNext()) {
+                            // Retrieving cells data and save them
+                            excelData.get(numberOfItems).add(cellIterator.next().getStringCellValue());
+                        }
+                        numberOfItems++; // Update the counter
                     }
-                    numberOfItems++; // Update the counter
                 }
 
                 //Get rid of notification message in contentPanel. Now we have something to show.
@@ -475,7 +478,7 @@ public class ApplicationUI implements ActionListener{
                 }
             }
 
-            // Now we need a few infos to create HTML code according to the pdf type and for the download link
+            // Now we need a few infos to create HTML code and download link according to the pdf type and subject
             File    demoFile                    = files.get(0);
             File    demoFIleParentFile          = demoFile.getParentFile();
             String  demoFileParentString        = demoFile.getParent();
