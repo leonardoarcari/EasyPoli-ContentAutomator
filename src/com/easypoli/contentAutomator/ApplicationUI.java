@@ -629,7 +629,7 @@ public class ApplicationUI implements ActionListener{
                             .append("/").append(typeAndSubject)
                             .append("/")
                             .append(files.get(k).getName())
-                            .append("\">PDF ")
+                            .append("\">Pdf ")
                             .append(k + 1)
                             .append(HTMLConstants.LINK_CLOSE)
                             .append(HTMLConstants.LI_CLOSE)
