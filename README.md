@@ -1,6 +1,12 @@
-#EasyPoli ContentAutomator
+# EasyPoli ContentAutomator
 
-###Generated HTML
+![](/res/img/pic_1.png)
+-----
+![](/res/img/pic_2.png)
+-----
+![](/res/img/pic_3.png)
+
+### Generated HTML
 
 ```html
 <li>
